@@ -3,9 +3,9 @@ import { ArrowUpRight } from 'lucide-react'
 import React from 'react'
 
 interface Props{
-  title:string,
-  content:string,
-  authorId:string
+  title?:string,
+  content?:string,
+  authorId?:string
 }
 
 export function BlogCard({ title, content, authorId}:Props) {
