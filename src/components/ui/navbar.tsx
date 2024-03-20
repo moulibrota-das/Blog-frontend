@@ -1,41 +1,41 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
-import Link from 'next/link'
-import Cookies from 'js-cookie';
+import React, { useEffect, useState } from "react";
+import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import Cookies from "js-cookie";
+import useAuth from "@/context/useAuth";
 
 const menuItems = [
   {
-    name: 'Home',
-    href: '#',
+    name: "Home",
+    href: "#",
   },
   {
-    name: 'About',
-    href: '#',
+    name: "About",
+    href: "#",
   },
   {
-    name: 'Contact',
-    href: '#',
+    name: "Contact",
+    href: "#",
   },
-]
+];
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-  const [token, setToken] = useState<string>("");
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { authStatus } = useAuth();
 
-  useEffect(() => {
-    const localToken = Cookies.get("token")
-    if(localToken){
-      setToken(localToken)
-    }
-    
-  }, [])
-  
+  // useEffect(() => {
+  //   const localToken = Cookies.get("token")
+  //   if(localToken){
+  //     setToken(localToken)
+  //   }
+
+  // }, [])
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <div className="relative w-full bg-off-white border-b-[1px]">
@@ -64,17 +64,30 @@ export function Navbar() {
             placeholder="Search"
           ></input>
         </div>
-        {!token && (<div className="hidden space-x-2 lg:block">
-          <Link href="/signup">
-          <button
-            type="button"
-            className="rounded-md border border-black bg-slate-800 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-            Sign In
-          </button>
-          </Link>
-        </div>)}
-        
+        {authStatus === false ? (
+          <div className="hidden space-x-2 lg:block">
+            <Link href="/signup">
+              <button
+                type="button"
+                className="rounded-md border border-black bg-slate-800 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                Sign In
+              </button>
+            </Link>
+          </div>
+        ) : (
+          <div className="hidden space-x-2 lg:block">
+            <Link href="/createBlog">
+              <button
+                type="button"
+                className="rounded-md border border-black bg-slate-800 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                Write
+              </button>
+            </Link>
+          </div>
+        )}
+
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
         </div>
@@ -149,5 +162,5 @@ export function Navbar() {
         )}
       </div>
     </div>
-  )
+  );
 }

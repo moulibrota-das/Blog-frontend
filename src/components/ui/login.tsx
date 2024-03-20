@@ -1,36 +1,49 @@
-"use client"
-import React, {useState} from 'react'
-import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { redirect, useRouter } from 'next/navigation';
-
+"use client";
+import React, { useState } from "react";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { redirect, useRouter } from "next/navigation";
+import useAuth from "@/context/useAuth";
 
 export function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { setAuthId, setAuthName, setAuthStatus, setAuthToken } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = async ()=>{
+  const handleSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/auth/login", {
-        email : email,
-        password : password
-      },{
-        headers:{
-          'Content-type' : 'application/json'
+      const response = await axios.post(
+        "http://localhost:4000/auth/login",
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-type": "application/json",
+          },
         }
-      })
+      );
 
-      const token = response.data;
-      Cookies.set('token', token,{expires: 3, secure:true});
-      console.log(token)
-      router.push("/")
+      if (response) {
+        const { id, name, email, token } = response.data;
+        console.log(response.data);
+        setAuthStatus(true);
+        localStorage.setItem("name", name);
+        localStorage.setItem("id", id);
+        Cookies.set("token", token, { expires: 3, secure: true });
+      }
+
+      // const token = response.data;
+      router.push("/");
+      // console.log(token);
     } catch (error) {
       console.log(error);
-    } 
-  }
+    }
+  };
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -53,7 +66,7 @@ export function Login() {
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 ">
-            Don&apos;t have an account?{' '}
+            Don&apos;t have an account?{" "}
             <Link
               href="/signup"
               title=""
@@ -65,28 +78,38 @@ export function Login() {
           <form action="#" method="POST" className="mt-8">
             <div className="space-y-5">
               <div>
-                <label htmlFor="" className="text-base font-medium text-gray-900">
-                  {' '}
-                  Email address{' '}
+                <label
+                  htmlFor=""
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Email address{" "}
                 </label>
                 <div className="mt-2">
                   <input
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="email"
                     placeholder="Email"
-                    onChange={e=>setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   ></input>
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between">
-                  <label htmlFor="" className="text-base font-medium text-gray-900">
-                    {' '}
-                    Password{' '}
+                  <label
+                    htmlFor=""
+                    className="text-base font-medium text-gray-900"
+                  >
+                    {" "}
+                    Password{" "}
                   </label>
-                  <a href="#" title="" className="text-sm font-semibold text-black hover:underline">
-                    {' '}
-                    Forgot password?{' '}
+                  <a
+                    href="#"
+                    title=""
+                    className="text-sm font-semibold text-black hover:underline"
+                  >
+                    {" "}
+                    Forgot password?{" "}
                   </a>
                 </div>
                 <div className="mt-2">
@@ -94,7 +117,7 @@ export function Login() {
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="password"
                     placeholder="Password"
-                    onChange={e=>setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -146,5 +169,5 @@ export function Login() {
         </div>
       </div>
     </section>
-  )
+  );
 }
