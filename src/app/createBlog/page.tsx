@@ -12,7 +12,7 @@ import ImageResize from "quill-image-resize-module-react";
 import { Navbar } from "@/components/ui/navbar";
 import "./style.css";
 import useAuth from "@/context/useAuth";
-import axios from "axios";
+import axios from "../../lib/api";
 import Cookies from "js-cookie";
 
 Quill.register("modules/imageResize", ImageResize);
@@ -53,7 +53,7 @@ const CreateBlogPage = () => {
     const token = Cookies.get("token");
     try {
       const response = await axios.post(
-        `http://localhost:4000/blog/${id}`,
+        `blog/${id}`,
         {
           title: title,
           description: title,

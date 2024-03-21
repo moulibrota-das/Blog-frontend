@@ -14,7 +14,9 @@ type Blog = {
 
 const getBlogs = async () => {
   try {
-    const response = await fetch("http://localhost:4000/blog/");
+    const response = await fetch(
+      "https://blog-backend-jmzo.onrender.com/blog/"
+    );
     const blogs = await response.json();
     if (blogs) {
       // setBlogs(response.data);

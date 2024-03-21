@@ -1,34 +1,50 @@
-"use client"
-import React, { useState } from 'react'
-import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
-import axios from 'axios';
-import Cookies from 'js-cookie';
+"use client";
+import React, { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+// import axios from "../../lib/api";
+import axios from "axios";
+import Cookies from "js-cookie";
+import useAuth from "@/context/useAuth";
 
 export function SignUp() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { setAuthStatus } = useAuth();
+  const router = useRouter();
 
-  const handleSubmit = async ()=>{
+  const handleSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/auth/", {
-        name : name,
-        email : email,
-        password : password
-      },{
-        headers:{
-          'Content-type' : 'application/json'
+      const response = await axios.post(
+        "https://blog-backend-jmzo.onrender.com/auth/",
+        {
+          name: name,
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-type": "application/json",
+          },
         }
-      })
+      );
 
-      const token = response.data;
-      Cookies.set('token', token,{expires: 3, secure:true});
-      console.log(token)
+      if (response) {
+        const { id, name, email, token } = response.data;
+        console.log(response.data);
+        setAuthStatus(true);
+        localStorage.setItem("name", name);
+        localStorage.setItem("id", id);
+        Cookies.set("token", token, { expires: 3, secure: true });
+      }
+
+      router.push("/");
     } catch (error) {
       console.log(error);
-    } 
-  }
+    }
+  };
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -51,7 +67,7 @@ export function SignUp() {
             Sign up to create account
           </h2>
           <p className="mt-2 text-center text-base text-gray-600">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link
               href="/signin"
               title=""
@@ -63,9 +79,12 @@ export function SignUp() {
           <form action="#" method="POST" className="mt-8">
             <div className="space-y-5">
               <div>
-                <label htmlFor="name" className="text-base font-medium text-gray-900">
-                  {' '}
-                  Full Name{' '}
+                <label
+                  htmlFor="name"
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Full Name{" "}
                 </label>
                 <div className="mt-2">
                   <input
@@ -73,14 +92,17 @@ export function SignUp() {
                     type="text"
                     placeholder="Full Name"
                     id="name"
-                    onChange={(e)=> setName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                   ></input>
                 </div>
               </div>
               <div>
-                <label htmlFor="email" className="text-base font-medium text-gray-900">
-                  {' '}
-                  Email address{' '}
+                <label
+                  htmlFor="email"
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Email address{" "}
                 </label>
                 <div className="mt-2">
                   <input
@@ -88,15 +110,18 @@ export function SignUp() {
                     type="email"
                     placeholder="Email"
                     id="email"
-                    onChange={(e)=> setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   ></input>
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="text-base font-medium text-gray-900">
-                    {' '}
-                    Password{' '}
+                  <label
+                    htmlFor="password"
+                    className="text-base font-medium text-gray-900"
+                  >
+                    {" "}
+                    Password{" "}
                   </label>
                 </div>
                 <div className="mt-2">
@@ -105,15 +130,14 @@ export function SignUp() {
                     type="password"
                     placeholder="Password"
                     id="password"
-                    onChange={(e)=> setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   ></input>
                 </div>
               </div>
               <div>
                 <button
                   type="button"
-                  onClick
-                  ={handleSubmit}
+                  onClick={handleSubmit}
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >
                   Create Account <ArrowRight className="ml-2" size={16} />
@@ -158,5 +182,5 @@ export function SignUp() {
         </div>
       </div>
     </section>
-  )
+  );
 }

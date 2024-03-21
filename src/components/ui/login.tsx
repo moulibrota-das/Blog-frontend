@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import axios from "axios";
+import axios from "../../lib/api";
 import Cookies from "js-cookie";
 import { redirect, useRouter } from "next/navigation";
 import useAuth from "@/context/useAuth";
@@ -16,7 +16,7 @@ export function Login() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/auth/login", {
+      const response = await axios.post("auth/login", {
         email: email,
         password: password,
       });
