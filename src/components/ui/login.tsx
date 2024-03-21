@@ -10,23 +10,16 @@ import useAuth from "@/context/useAuth";
 export function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const { setAuthId, setAuthName, setAuthStatus, setAuthToken } = useAuth();
+  const { setAuthStatus } = useAuth();
   const router = useRouter();
+  // const [buttonText, setButtonText] = useState("Login");
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/auth/login",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("http://localhost:4000/auth/login", {
+        email: email,
+        password: password,
+      });
 
       if (response) {
         const { id, name, email, token } = response.data;
@@ -37,9 +30,7 @@ export function Login() {
         Cookies.set("token", token, { expires: 3, secure: true });
       }
 
-      // const token = response.data;
       router.push("/");
-      // console.log(token);
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +66,7 @@ export function Login() {
               Create a free account
             </Link>
           </p>
-          <form action="#" method="POST" className="mt-8">
+          <div className="mt-8">
             <div className="space-y-5">
               <div>
                 <label
@@ -125,13 +116,14 @@ export function Login() {
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                  onTouchStart={handleSubmit}
+                  className="cursor-pointer relative inline-flex w-full z-10 items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >
-                  Get started <ArrowRight className="ml-2" size={16} />
+                  Log In
                 </button>
               </div>
             </div>
-          </form>
+          </div>
           <div className="mt-3 space-y-3">
             <button
               type="button"

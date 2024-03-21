@@ -1,0 +1,36 @@
+/* @font-face {
+    font-family: "Geist";
+    src: url("https://github.com/vercel/geist-font/releases/download/1.1.0/Geist.zip");
+  } */
+
+
+
+
+    .blog-container{
+        font-size: 1.125rem;
+        font-family: sans-serif;
+        font-weight: 400;
+        line-height: 2rem;
+        /* display: flex;
+        flex-direction: column; */
+        text-align: left;
+        word-wrap: break-word;
+    }
+
+    .blog-container ul{
+        margin: 1rem 0;
+    }
+
+    .blog-container h2, h1{
+        margin: 1rem 0;
+    }
+
+    .blog-container img{
+        display: block;
+        margin: 0 auto;
+        padding: 2rem 0;
+        /* max-width: 600px; */
+        /* max-height: 800px; */
+    }
+
+

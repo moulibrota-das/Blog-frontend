@@ -32,7 +32,7 @@ export default function RootLayout({
   }, []);
 
   return (
-    <html lang="en" className={`${GeistSans.className} bg-off-white`}>
+    <html lang="en" className={`${GeistSans.className}`}>
       <AuthProvider
         value={{
           authId,
@@ -45,7 +45,7 @@ export default function RootLayout({
           setAuthToken,
         }}
       >
-        <body className=" bg-off-white">{children}</body>
+        <body className=" bg-off-white dark:bg-slate-800">{children}</body>
       </AuthProvider>
     </html>
   );

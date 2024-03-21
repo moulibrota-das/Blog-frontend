@@ -1,14 +1,16 @@
-"use client"
-import { ArrowUpRight } from 'lucide-react'
-import React from 'react'
+"use client";
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import React from "react";
 
-interface Props{
-  title?:string,
-  content?:string,
-  authorId?:string
+interface Props {
+  id?: string;
+  title?: string;
+  content?: string;
+  authorId?: string;
 }
 
-export function BlogCard({ title, content, authorId}:Props) {
+export function BlogCard({ id, title, content, authorId }: Props) {
   return (
     <div className="flex w-full max-w-2xl flex-col rounded-md border md:flex-row ">
       {/* Image div start optional */}
@@ -20,39 +22,45 @@ export function BlogCard({ title, content, authorId}:Props) {
         />
       </div> */}
       {/* <div> */}
-        <div className="p-4 w-full">
-          <h1 className="inline-flex items-center text-lg font-semibold">
+      <div className="p-4 w-full">
+        <h1 className="inline-flex items-center text-lg font-semibold">
           {title && title}
-          </h1>
-          <p className="mt-3 text-sm text-gray-600">
-            {content && content}...
-          </p>
-          <div className="mt-4">
-            <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
-              #Macbook
+        </h1>
+        {content && (
+          <section
+            className="mt-3 text-sm text-gray-600"
+            // dangerouslySetInnerHTML={{ __html: content }}
+          >
+            {content.slice(0, 200)}
+          </section>
+        )}
+        {/* <div className="mt-4">
+          <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
+            #Macbook
+          </span>
+          <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
+            #Apple
+          </span>
+          <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
+            #Laptop
+          </span>
+        </div> */}
+        <div className="mt-3 flex items-center justify-between space-x-2">
+          <span className="flex flex-col">
+            <span className="text-[10px] font-medium text-gray-900">
+              {authorId && authorId}
             </span>
-            <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
-              #Apple
-            </span>
-            <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
-              #Laptop
-            </span>
-          </div>
-          <div className="mt-3 flex items-center justify-between space-x-2">
+            {/* <span className="text-[8px] font-medium text-gray-500">@dan_abromov</span> */}
+          </span>
 
-            <span className="flex flex-col">
-              <span className="text-[10px] font-medium text-gray-900">{authorId && authorId}</span>
-              {/* <span className="text-[8px] font-medium text-gray-500">@dan_abromov</span> */}
-            </span>
-
-            {/* action item div */}
-            <ul className='inline-flex gap-2 items-center'>
-              <li>save</li>
-              <li>like</li>
-            </ul>
-          </div>
+          {/* action item div */}
+          <ul className="inline-flex gap-2 items-center">
+            <li>save</li>
+            <li>like</li>
+          </ul>
         </div>
+      </div>
       {/* </div> */}
     </div>
-  )
+  );
 }
