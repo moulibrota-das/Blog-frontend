@@ -16,12 +16,14 @@ import axios from "../../lib/api";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import Button from "@/components/ui/Button";
 
 // Quill.register("modules/imageResize", ImageResize);
 
 const CreateBlogPage = () => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const { authId, authToken } = useAuth();
   const router = useRouter();
 
@@ -56,9 +58,14 @@ const CreateBlogPage = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     console.log(authId);
     const id = localStorage.getItem("id");
     const token = Cookies.get("token");
+    if (title === "" || value === "" || id === "") {
+      setLoading(false);
+      throw new Error("Cannot leave Title or Content blank");
+    }
     try {
       const response = await axios.post(
         `blog/${id}`,
@@ -80,6 +87,7 @@ const CreateBlogPage = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const adjustTextareaHeight = () => {
@@ -137,13 +145,20 @@ const CreateBlogPage = () => {
           formats={formats}
           placeholder="Tell your story..."
         />
-        <button
+        {/* <button
           type="button"
           onClick={handleSubmit}
           className="justify-self-end rounded-md border border-black bg-slate-800 mt-2 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
         >
           Publish
-        </button>
+        </button> */}
+        <Button
+          onClick={handleSubmit}
+          loading={loading}
+          className="min-w-32 min-h-10 justify-self-end rounded-md border border-black bg-slate-800 mt-2 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        >
+          Publish
+        </Button>
       </div>
     </>
   );

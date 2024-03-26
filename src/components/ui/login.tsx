@@ -6,15 +6,18 @@ import axios from "../../lib/api";
 import Cookies from "js-cookie";
 import { redirect, useRouter } from "next/navigation";
 import useAuth from "@/context/useAuth";
+import Button from "./Button";
 
 export function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const { setAuthStatus } = useAuth();
   const router = useRouter();
   // const [buttonText, setButtonText] = useState("Login");
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const response = await axios.post("auth/login", {
         email: email,
@@ -34,6 +37,7 @@ export function Login() {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   return (
     <section>
@@ -113,14 +117,21 @@ export function Login() {
                 </div>
               </div>
               <div>
-                <button
+                {/* <button
                   type="button"
                   onClick={handleSubmit}
                   onTouchStart={handleSubmit}
                   className="cursor-pointer relative inline-flex w-full z-10 items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >
                   Log In
-                </button>
+                </button> */}
+                <Button
+                  onClick={handleSubmit}
+                  loading={loading}
+                  className="h-12 cursor-pointer relative inline-flex w-full z-10 items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                >
+                  Log In
+                </Button>
               </div>
             </div>
           </div>
