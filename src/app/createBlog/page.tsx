@@ -6,7 +6,7 @@ import React, {
   useRef,
   ChangeEvent,
 } from "react";
-import ReactQuill, { Quill } from "react-quill";
+// import { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "quill-image-resize-module-react";
 import { Navbar } from "@/components/ui/navbar";
@@ -14,13 +14,24 @@ import "./style.css";
 import useAuth from "@/context/useAuth";
 import axios from "../../lib/api";
 import Cookies from "js-cookie";
+import dynamic from "next/dynamic";
 
-Quill.register("modules/imageResize", ImageResize);
+// Quill.register("modules/imageResize", ImageResize);
 
 const CreateBlogPage = () => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState<string>("");
   const { authId, authToken } = useAuth();
+
+  const ReactQuill = useMemo(
+    () => dynamic(() => import("react-quill"), { ssr: false }),
+    []
+  );
+
+  const Quill = useMemo(
+    () => dynamic(() => import("react-quill"), { ssr: false }),
+    []
+  );
 
   const formats = [
     "header",
@@ -80,7 +91,7 @@ const CreateBlogPage = () => {
   const modules = useMemo(
     () => ({
       imageResize: {
-        parchment: Quill.import("parchment"),
+        // parchment: Quill.import("parchment"),
         modules: ["Resize", "DisplaySize"],
       },
       toolbar: [
@@ -116,12 +127,12 @@ const CreateBlogPage = () => {
           placeholder="Title"
         />
         <ReactQuill
-          ref={(el) => (quill.current = el)}
+          // ref={(el: any) => (quill.current = el)}
           className=""
           theme="snow"
           value={value}
           onChange={setValue}
-          modules={modules}
+          // modules={modules}
           formats={formats}
           placeholder="Tell your story..."
         />
