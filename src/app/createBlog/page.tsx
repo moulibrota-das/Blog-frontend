@@ -15,6 +15,7 @@ import useAuth from "@/context/useAuth";
 import axios from "../../lib/api";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
 // Quill.register("modules/imageResize", ImageResize);
 
@@ -22,13 +23,9 @@ const CreateBlogPage = () => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState<string>("");
   const { authId, authToken } = useAuth();
+  const router = useRouter();
 
   const ReactQuill = useMemo(
-    () => dynamic(() => import("react-quill"), { ssr: false }),
-    []
-  );
-
-  const Quill = useMemo(
     () => dynamic(() => import("react-quill"), { ssr: false }),
     []
   );
@@ -75,6 +72,10 @@ const CreateBlogPage = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
+      if (response.status === 200) {
+        router.push("/");
+      }
       console.log(response);
     } catch (error) {
       console.log(error);

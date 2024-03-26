@@ -15,7 +15,8 @@ type Blog = {
 const getBlogs = async () => {
   try {
     const response = await fetch(
-      "https://blog-backend-jmzo.onrender.com/blog/"
+      "https://blog-backend-jmzo.onrender.com/blog/",
+      { cache: "no-store" }
     );
     const blogs = await response.json();
     if (blogs) {

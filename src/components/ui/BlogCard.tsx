@@ -1,4 +1,5 @@
 "use client";
+import { extractSubstringBetweenPTags } from "@/lib/helper";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -31,7 +32,7 @@ export function BlogCard({ id, title, content, authorId }: Props) {
             className="mt-3 text-sm text-gray-600"
             // dangerouslySetInnerHTML={{ __html: content }}
           >
-            {content.slice(0, 200)}
+            {extractSubstringBetweenPTags(content)?.slice(0, 200)}
           </section>
         )}
         {/* <div className="mt-4">
