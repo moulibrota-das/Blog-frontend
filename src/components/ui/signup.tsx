@@ -7,7 +7,7 @@ import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
 import useAuth from "@/context/useAuth";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/button";
 
 export function SignUp() {
   const [name, setName] = useState<string>("");

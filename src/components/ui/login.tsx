@@ -6,7 +6,7 @@ import axios from "../../lib/api";
 import Cookies from "js-cookie";
 import { redirect, useRouter } from "next/navigation";
 import useAuth from "@/context/useAuth";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/button";
 
 export function Login() {
   const [email, setEmail] = useState<string>("");
