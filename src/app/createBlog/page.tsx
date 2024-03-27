@@ -17,6 +17,7 @@ import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
+import Editor from "@/components/ui/Editor";
 
 // Quill.register("modules/imageResize", ImageResize);
 
@@ -135,7 +136,7 @@ const CreateBlogPage = () => {
           className="border-b-[1px] border-slate-300 h-auto py-3 px-2 resize-none outline-none bg-transparent w-full  text-3xl font-bold overflow-hidden"
           placeholder="Title"
         />
-        <ReactQuill
+        {/* <ReactQuill
           // ref={(el: any) => (quill.current = el)}
           className=""
           theme="snow"
@@ -144,14 +145,9 @@ const CreateBlogPage = () => {
           // modules={modules}
           formats={formats}
           placeholder="Tell your story..."
-        />
-        {/* <button
-          type="button"
-          onClick={handleSubmit}
-          className="justify-self-end rounded-md border border-black bg-slate-800 mt-2 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-        >
-          Publish
-        </button> */}
+        /> */}
+        <Editor />
+
         <Button
           onClick={handleSubmit}
           loading={loading}

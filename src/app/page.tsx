@@ -22,7 +22,7 @@ const getBlogs = async () => {
     const blogs = await response.json();
     if (blogs) {
       // setBlogs(response.data);
-      console.log(blogs);
+      // console.log(blogs);
       return blogs;
     }
   } catch (error) {
