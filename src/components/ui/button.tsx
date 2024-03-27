@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 interface Props {
@@ -7,12 +8,12 @@ interface Props {
   className: string;
 }
 
-const Button: React.FC<Props> = ({
+export function Button({
   children,
   onClick,
   loading = false,
   className,
-}) => {
+}: Props) {
   return (
     <button className={className} onClick={onClick}>
       {!loading ? (
@@ -40,6 +41,6 @@ const Button: React.FC<Props> = ({
       )}
     </button>
   );
-};
+}
 
 export default Button;
