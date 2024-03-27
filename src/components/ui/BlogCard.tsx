@@ -8,10 +8,10 @@ interface Props {
   id?: string;
   title?: string;
   content?: string;
-  authorId?: string;
+  author?: { name: string };
 }
 
-export function BlogCard({ id, title, content, authorId }: Props) {
+export function BlogCard({ id, title, content, author }: Props) {
   return (
     <div className="flex w-full max-w-2xl flex-col rounded-md border md:flex-row ">
       {/* Image div start optional */}
@@ -49,9 +49,11 @@ export function BlogCard({ id, title, content, authorId }: Props) {
         <div className="mt-3 flex items-center justify-between space-x-2">
           <span className="flex flex-col">
             <span className="text-[10px] font-medium text-gray-900">
-              {authorId && authorId}
+              @{author && author.name}
             </span>
-            {/* <span className="text-[8px] font-medium text-gray-500">@dan_abromov</span> */}
+            {/* <span className="text-[8px] font-medium text-gray-500">
+              @dan_abromov
+            </span> */}
           </span>
 
           {/* action item div */}

@@ -10,6 +10,7 @@ type Blog = {
   description: string;
   content: string;
   authorId: string;
+  author: { name: string };
 };
 
 const getBlogs = async () => {
@@ -40,14 +41,14 @@ export default async function Home() {
       <div className="mx-auto grid grid-cols-3 max-w-4xl  justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="container col-span-3 md:col-span-2 flex flex-col gap-4 py-2">
           {blogs &&
-            blogs.map((blog: Blog) => {
+            blogs.reverse().map((blog: Blog) => {
               return (
                 <Link key={blog.id} href={`/blog/${blog.id}`}>
                   <BlogCard
                     key={blog.id}
                     title={blog.title}
                     content={blog.content}
-                    authorId={blog.authorId}
+                    author={blog.author}
                     id={blog.id}
                   />
                 </Link>
