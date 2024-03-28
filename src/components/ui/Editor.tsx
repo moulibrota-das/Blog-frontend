@@ -5,18 +5,22 @@ import React, {
   useEffect,
   useState,
   useRef,
-  ChangeEvent,
+  SetStateAction,
 } from "react";
 import { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "quill-image-resize-module-react";
-// import "./style.css";
+import "./style.css";
 import dynamic from "next/dynamic";
 
 // Quill.register("modules/imageResize", ImageResize);
+interface Props {
+  value: string;
+  setValue: React.Dispatch<SetStateAction<string>>;
+}
 
-const Editor = () => {
-  const [value, setValue] = useState("");
+const Editor = ({ value, setValue }: Props) => {
+  // const [value, setValue] = useState("");
 
   const formats = [
     "header",

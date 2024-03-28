@@ -1,56 +1,19 @@
 "use client";
-import React, {
-  useMemo,
-  useEffect,
-  useState,
-  useRef,
-  ChangeEvent,
-} from "react";
-// import { Quill } from "react-quill";
+import React, { useState, useRef, ChangeEvent } from "react";
 import "react-quill/dist/quill.snow.css";
-import ImageResize from "quill-image-resize-module-react";
 import { Navbar } from "@/components/ui/navbar";
-import "./style.css";
-import useAuth from "@/context/useAuth";
 import axios from "../../lib/api";
 import Cookies from "js-cookie";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
 import Editor from "@/components/ui/Editor";
-
-// Quill.register("modules/imageResize", ImageResize);
 
 const CreateBlogPage = () => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const { authId, authToken } = useAuth();
   const router = useRouter();
 
-  const ReactQuill = useMemo(
-    () => dynamic(() => import("react-quill"), { ssr: false }),
-    []
-  );
-
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "video",
-  ];
-
-  const quill = useRef<any>();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -60,7 +23,6 @@ const CreateBlogPage = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    console.log(authId);
     const id = localStorage.getItem("id");
     const token = Cookies.get("token");
     if (title === "" || value === "" || id === "") {
@@ -98,32 +60,6 @@ const CreateBlogPage = () => {
     }
   };
 
-  const modules = useMemo(
-    () => ({
-      imageResize: {
-        // parchment: Quill.import("parchment"),
-        modules: ["Resize", "DisplaySize"],
-      },
-      toolbar: [
-        [{ header: "1" }, { header: "2" }],
-        [{ size: [] }],
-        ["bold", "italic", "underline", "strike", "blockquote"],
-        [
-          { list: "ordered" },
-          { list: "bullet" },
-          { indent: "-1" },
-          { indent: "+1" },
-        ],
-        ["link", "image", "video"],
-        ["clean"],
-      ],
-      clipboard: {
-        matchVisual: true,
-      },
-    }),
-    []
-  );
-
   return (
     <>
       <Navbar />
@@ -136,17 +72,8 @@ const CreateBlogPage = () => {
           className="border-b-[1px] border-slate-300 h-auto py-3 px-2 resize-none outline-none bg-transparent w-full  text-3xl font-bold overflow-hidden"
           placeholder="Title"
         />
-        {/* <ReactQuill
-          // ref={(el: any) => (quill.current = el)}
-          className=""
-          theme="snow"
-          value={value}
-          onChange={setValue}
-          // modules={modules}
-          formats={formats}
-          placeholder="Tell your story..."
-        /> */}
-        <Editor />
+
+        <Editor value={value} setValue={setValue} />
 
         <Button
           onClick={handleSubmit}
