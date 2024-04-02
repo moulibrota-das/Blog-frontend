@@ -1,28 +1,36 @@
 "use client";
-import React, { useState, useRef, ChangeEvent, useLayoutEffect } from "react";
+import React, { useState, useRef, ChangeEvent, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 import { Navbar } from "@/components/ui/navbar";
-import axios from "../../lib/api";
+import axios from "../../../lib/api";
 import Cookies from "js-cookie";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
 import Editor from "@/components/ui/Editor";
-import useAuth from "@/context/useAuth";
 
-const CreateBlogPage = () => {
+const EditBlogPage = ({ params }: { params: { id: string } }) => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { authStatus } = useAuth();
-
-  useLayoutEffect(() => {
-    if (!authStatus) {
-      redirect("/");
-    }
-  }, [authStatus]);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(`blog/${params.id}`);
+        if (response) {
+          // setBlogs(response.data);
+          setValue(response.data.content);
+          setTitle(response.data.title);
+        }
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [params]);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(e.target.value);
@@ -95,4 +103,4 @@ const CreateBlogPage = () => {
   );
 };
 
-export default CreateBlogPage;
+export default EditBlogPage;
